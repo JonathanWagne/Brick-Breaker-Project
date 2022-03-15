@@ -12,8 +12,23 @@
 /*---playing field----*/
 /*_______________________*/
 
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .playing-field {
-  height: 800px;
-  width: 1200px;
+  display: block;
+  height: 50vh;
+  width: 50vw;
   background-color: black;
+}
+
+.paddle {
+  position: relative;
+  width: 5vw;
+  height: 5vh;
+  background-color: aqua;
 }

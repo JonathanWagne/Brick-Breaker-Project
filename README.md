@@ -22,7 +22,7 @@ Hackathon Game Brick Braker
 - move the paddle with arrow keys
 - ball breaks brick(s) after collision
 - ball gets reflected on the walls
-- ball gets when hitting bricks
+- ball bounces/gets reflected when hitting bricks
 - ball gets reflected by the paddle
 - (pitch the ball when it hits the corner of the paddle)
 - unbreakable bricks for more difficulty

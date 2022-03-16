@@ -20,12 +20,25 @@ var brickOffsetTop = 30;
 var brickOffsetLeft = 30;
 var score = 0;
 var lives = 3;
+var totalHitpoints = 0;
 
 var bricks = [];
 for (var c = 0; c < brickColumnCount; c++) {
   bricks[c] = [];
   for (var r = 0; r < brickRowCount; r++) {
-    bricks[c][r] = { x: 0, y: 0, status: 1 };
+    let hitPoints = 1
+    let randomizer = Math.random()
+    if (randomizer <= 0.6){
+      hitPoints = 1
+    }
+    if (randomizer > 0.6 && randomizer <= 0.8){
+      hitPoints = 2
+    }
+    if (randomizer > 0.8){
+      hitPoints = 3
+    }
+    bricks[c][r] = { x: 0, y: 0, status: hitPoints };
+    totalHitpoints = totalHitpoints + hitPoints;
   }
 }
 
@@ -59,7 +72,7 @@ function collisionDetection() {
   for (var c = 0; c < brickColumnCount; c++) {
     for (var r = 0; r < brickRowCount; r++) {
       var b = bricks[c][r];
-      if (b.status == 1) {
+      if (b.status != 0) {
         if (
           x > b.x &&
           x < b.x + brickWidth &&
@@ -67,9 +80,9 @@ function collisionDetection() {
           y < b.y + brickHeight
         ) {
           dy = -dy;
-          b.status = 0;
+          b.status = b.status - 1;
           score++;
-          if (score == brickRowCount * brickColumnCount) {
+          if (score == totalHitpoints) {
             alert("YOU WIN, CONGRATULATIONS!");
             document.location.reload();
           }
@@ -115,12 +128,34 @@ function drawBricks() {
         bricks[c][r].y = brickY;
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.fillStyle = "#0095DD";
+        ctx.fillStyle = "#008000";
         ctx.fill();
         ctx.closePath();
       }
+      if (bricks[c][r].status == 2) {
+        var brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
+        var brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
+        bricks[c][r].x = brickX;
+        bricks[c][r].y = brickY;
+        ctx.beginPath();
+        ctx.rect(brickX, brickY, brickWidth, brickHeight);
+        ctx.fillStyle = "#ffff00";
+        ctx.fill();
+        ctx.closePath();
     }
+    if (bricks[c][r].status == 3) {
+        var brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
+        var brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
+        bricks[c][r].x = brickX;
+        bricks[c][r].y = brickY;
+        ctx.beginPath();
+        ctx.rect(brickX, brickY, brickWidth, brickHeight);
+        ctx.fillStyle = "#ff0000";
+        ctx.fill();
+        ctx.closePath();
   }
+}
+}
 }
 
 function draw() {
@@ -142,7 +177,7 @@ function draw() {
       if ((y = y - paddleHeight)) {
         // Math.atan2(y,x) to get angle of incoming ball
         const relativePosition = x - (paddleX + paddleWidth/2);
-        const newdy = Math.max(-4 + 8*Math.abs(relativePosition/paddleWidth), -1);
+        const newdy = Math.max(-4 + 8*Math.abs(relativePosition/paddleWidth), -6);
         const newdx = 16*(relativePosition/paddleWidth);
         dx = newdx;
         dy = newdy;
@@ -155,8 +190,8 @@ function draw() {
       } else {
         x = canvas.width / 2;
         y = canvas.height - 30;
-        dx = 2;
-        dy = -2;
+        dx = 4;
+        dy = -4;
         paddleX = (canvas.width - paddleWidth) / 2;
       }
     }
@@ -180,37 +215,3 @@ function gameLoop(){
 }
 
 gameLoop();
-
-// const paddle = document.querySelector(".paddle");
-
-// let paddlePosition = 22.5;
-
-// const leftBound = 0;
-// const rightBound = 45;
-
-// function changePaddlePosition(newPosition) {
-//   if (newPosition >= leftBound && newPosition <= rightBound) {
-//     // then you can move it
-//     paddlePosition = newPosition;
-//     paddle.style.transform = `translate(${newPosition}vw, 45vh)`;
-//   } else {
-//     // trying to move it out of bounds, bad
-//   }
-// }
-// paddle.style.transform = "translate(22.5vw, 45vh)";
-
-// function gameLoop() {
-//   updateGameState();
-
-//   setTimeout(() => {
-//     window.requestAnimationFrame(gameLoop);
-//   }, 100);
-
-//   return;
-// }
-
-// function updateGameState() {
-//   // do game stuff in here
-// }
-
-// gameLoop();

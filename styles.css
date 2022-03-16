@@ -8,6 +8,12 @@
   display: flex;
 }
 
+canvas {
+  background: #eee;
+  display: block;
+  margin: 0 auto;
+}
+
 /*_______________________*/
 /*---playing field----*/
 /*_______________________*/
